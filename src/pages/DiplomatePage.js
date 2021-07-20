@@ -41,9 +41,21 @@ const DiplomatePage = () => {
     }
   };
 
-  const getInscriptionHandler = (payload) => {
+  const getInscriptionHandler = async (payload) => {
     console.log(payload);
     console.log('Llamada al backend de la Inscripción');
+    const headers = {
+      'Content-Type': 'application/json',
+    };
+    try {
+      // eslint-disable-next-line
+      console.log("enviando...");
+      await axios.post(`http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations`, payload, { headers });
+      console.log('enviado!');
+    } catch (error) {
+      // eslint-disable-next-line
+      console.log(error);
+    }
   };
 
   const syllabus = [{
