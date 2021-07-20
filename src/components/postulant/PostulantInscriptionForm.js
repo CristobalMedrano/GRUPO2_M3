@@ -8,51 +8,98 @@ import FileDocumentIcon from 'mdi-react/FileDocumentIcon';
 import FileDocumentMultipleIcon from 'mdi-react/FileDocumentMultipleIcon';
 import CardAccountDetailsIcon from 'mdi-react/CardAccountDetailsIcon';
 import BookAccountIcon from 'mdi-react/BookAccountIcon';
+import storage from '../../firebase';
 import './PostulantInscriptionForm.css';
 
 const PostulantInscriptionForm = (props) => {
   const [birthCertificateFile, setBirthCertificateFile] = useState(null);
+  // eslint-disable-next-line
   const [copyIdentityCardFile, setCopyIdentityCardFile] = useState(null);
+  // eslint-disable-next-line
   const [curriculumVitaeFile, setCurriculumVitaeFile] = useState(null);
+  // eslint-disable-next-line
   const [graduateCertificateFile, setGraduateCertificateFile] = useState(null);
+  // eslint-disable-next-line
   const [registrationFormFile, setRegistrationFormFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { title, show, onHide } = props;
 
   function handleBirthCertificateChange(event) {
     // validaciones
-    setBirthCertificateFile(event.target.value);
+    setBirthCertificateFile(event.target.files[0]);
   }
 
   function handleCopyIdentityCardChange(event) {
     // validaciones
-    setCopyIdentityCardFile(event.target.value);
+    setCopyIdentityCardFile(event.target.files[0]);
   }
 
   function handleCurriculumVitaeChange(event) {
     // validaciones
-    setCurriculumVitaeFile(event.target.value);
+    setCurriculumVitaeFile(event.target.files[0]);
   }
 
   function handleGraduateCertificateChange(event) {
     // validaciones
-    setGraduateCertificateFile(event.target.value);
+    setGraduateCertificateFile(event.target.files[0]);
   }
 
   function handleRegistrationFormFile(event) {
     // validaciones
-    setRegistrationFormFile(event.target.value);
+    setRegistrationFormFile(event.target.files[0]);
+  }
+
+  function uploadFile(file, name) {
+    const timeStamp = Date.now();
+    const storageRef = storage.ref();
+    // eslint-disable-next-line
+    const uploadTask = storageRef.child(`${timeStamp + name + '.pdf'}`).put(file);
+
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        // file upload progress report
+        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        if (progress === 100 && name === 'registrationForm') {
+          setIsLoading(false);
+        }
+        console.log(progress);
+      },
+      (error) => {
+        // file upload failed
+        console.log(error);
+      },
+      () => {
+        // file upload completed
+        // eslint-disable-next-line
+        storageRef.child(`${timeStamp + name + '.pdf'}`).getDownloadURL()
+          .then(
+            (url) => {
+              // got download URL
+              console.log(url);
+            },
+            (error) => {
+              // failed to get download URL
+              console.log(error);
+            },
+          );
+      });
   }
 
   async function handleSubmit(event) {
-    setIsLoading(true);
     event.preventDefault();
+    setIsLoading(true);
+    // eslint-disable-next-line
+    uploadFile(birthCertificateFile, 'birthCertificate');
+    uploadFile(copyIdentityCardFile, 'copyIdentityCard');
+    uploadFile(curriculumVitaeFile, 'curriculumVitae');
+    uploadFile(graduateCertificateFile, 'graduateCertificate');
+    uploadFile(registrationFormFile, 'registrationForm');
     const payload = {
       name: 'das',
       email: 'formState.email',
     };
     await props.onSubmitPostulantInscriptionForm(payload);
-    setIsLoading(false);
+    // setIsLoading(false);
     // Liberar states
   }
 
@@ -95,35 +142,35 @@ const PostulantInscriptionForm = (props) => {
                     <BookAccountIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Certificado de nacimiento
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} type="file" value={birthCertificateFile} onChange={handleBirthCertificateChange} />
+                  <Form.Control required disabled={isLoading} type="file" onChange={handleBirthCertificateChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <CardAccountDetailsIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Copia carnet de identidad
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} type="file" value={copyIdentityCardFile} onChange={handleCopyIdentityCardChange} />
+                  <Form.Control disabled={isLoading} type="file" onChange={handleCopyIdentityCardChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <FileDocumentMultipleIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Curriculum Vitae
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} type="file" value={curriculumVitaeFile} onChange={handleCurriculumVitaeChange} />
+                  <Form.Control disabled={isLoading} type="file" onChange={handleCurriculumVitaeChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <CertificateIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Certificado de graduación
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} type="file" value={graduateCertificateFile} onChange={handleGraduateCertificateChange} />
+                  <Form.Control disabled={isLoading} type="file" onChange={handleGraduateCertificateChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <FileDocumentIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Formulario de registro
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} type="file" value={registrationFormFile} onChange={handleRegistrationFormFile} />
+                  <Form.Control disabled={isLoading} type="file" onChange={handleRegistrationFormFile} />
                 </Form.Group>
               </Col>
             </Row>
