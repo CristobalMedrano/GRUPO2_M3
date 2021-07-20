@@ -13,14 +13,17 @@ import './PostulantInscriptionForm.css';
 
 const PostulantInscriptionForm = (props) => {
   const [birthCertificateFile, setBirthCertificateFile] = useState(null);
-  // eslint-disable-next-line
   const [copyIdentityCardFile, setCopyIdentityCardFile] = useState(null);
-  // eslint-disable-next-line
   const [curriculumVitaeFile, setCurriculumVitaeFile] = useState(null);
-  // eslint-disable-next-line
   const [graduateCertificateFile, setGraduateCertificateFile] = useState(null);
-  // eslint-disable-next-line
   const [registrationFormFile, setRegistrationFormFile] = useState(null);
+  /* const [linksToDocuments, setLinksToDocuments] = useState({
+    birthCertificate: '',
+    copyIdentityCard: '',
+    curriculumVitae: '',
+    graduateCertificate: '',
+    registrationForm: '',
+  }); */
   const [isLoading, setIsLoading] = useState(false);
   const { title, show, onHide } = props;
 
@@ -49,58 +52,64 @@ const PostulantInscriptionForm = (props) => {
     setRegistrationFormFile(event.target.files[0]);
   }
 
-  function uploadFile(file, name) {
-    const timeStamp = Date.now();
-    const storageRef = storage.ref();
-    // eslint-disable-next-line
-    const uploadTask = storageRef.child(`${timeStamp + name + '.pdf'}`).put(file);
-
-    uploadTask.on('state_changed',
-      (snapshot) => {
-        // file upload progress report
-        const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-        if (progress === 100 && name === 'registrationForm') {
-          setIsLoading(false);
-        }
-        console.log(progress);
-      },
-      (error) => {
-        // file upload failed
-        console.log(error);
-      },
-      () => {
-        // file upload completed
-        // eslint-disable-next-line
-        storageRef.child(`${timeStamp + name + '.pdf'}`).getDownloadURL()
-          .then(
-            (url) => {
-              // got download URL
-              console.log(url);
-            },
-            (error) => {
-              // failed to get download URL
-              console.log(error);
-            },
-          );
-      });
-  }
-
   async function handleSubmit(event) {
     event.preventDefault();
     setIsLoading(true);
+    const arrayVars = [birthCertificateFile, copyIdentityCardFile,
+      curriculumVitaeFile, graduateCertificateFile, registrationFormFile];
+    const arrayChars = ['birthCertificate', 'copyIdentityCard',
+      'curriculumVitae', 'graduateCertificate', 'registrationForm'];
     // eslint-disable-next-line
-    uploadFile(birthCertificateFile, 'birthCertificate');
-    uploadFile(copyIdentityCardFile, 'copyIdentityCard');
-    uploadFile(curriculumVitaeFile, 'curriculumVitae');
-    uploadFile(graduateCertificateFile, 'graduateCertificate');
-    uploadFile(registrationFormFile, 'registrationForm');
-    const payload = {
-      name: 'das',
-      email: 'formState.email',
-    };
-    await props.onSubmitPostulantInscriptionForm(payload);
-    // setIsLoading(false);
-    // Liberar states
+    let arrayLinks = [];
+    const timeStamp = Date.now();
+    const storageRef = storage.ref();
+    arrayVars.forEach((element) => {
+      // eslint-disable-next-line
+      const uploadTask = storageRef.child(`${timeStamp + arrayChars[arrayVars.indexOf(element)] + '.pdf'}`).put(element);
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // file upload progress report
+          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+          console.log(progress);
+        },
+        (error) => {
+          // file upload failed
+          console.log(error);
+        },
+        // eslint-disable-next-line
+        async () => {
+          // file upload completed
+          try {
+            // eslint-disable-next-line
+            arrayLinks[arrayVars.indexOf(element)] = await storageRef.child(`${timeStamp + arrayChars[arrayVars.indexOf(element)] + '.pdf'}`).getDownloadURL();
+            console.log(arrayLinks);
+            if (arrayLinks.length === 5) {
+              console.log('SUBI TODO!');
+              const payload = {
+                birthCertificate: arrayLinks[0],
+                copyIdentityCard: arrayLinks[1],
+                curriculumVitae: arrayLinks[2],
+                graduateCertificate: arrayLinks[3],
+                registrationForm: arrayLinks[4],
+                received: false,
+                valid: false,
+              };
+              console.log(payload);
+              await props.onSubmitPostulantInscriptionForm(payload);
+              setIsLoading(false);
+              // Liberar states
+              setBirthCertificateFile(null);
+              setCopyIdentityCardFile(null);
+              setCurriculumVitaeFile(null);
+              setGraduateCertificateFile(null);
+              setRegistrationFormFile(null);
+              arrayLinks = [];
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        });
+    });
   }
 
   return (
@@ -149,28 +158,28 @@ const PostulantInscriptionForm = (props) => {
                     <CardAccountDetailsIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Copia carnet de identidad
                   </Form.Label>
-                  <Form.Control disabled={isLoading} type="file" onChange={handleCopyIdentityCardChange} />
+                  <Form.Control required disabled={isLoading} type="file" onChange={handleCopyIdentityCardChange} />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                <Form.Group required className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <FileDocumentMultipleIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Curriculum Vitae
                   </Form.Label>
-                  <Form.Control disabled={isLoading} type="file" onChange={handleCurriculumVitaeChange} />
+                  <Form.Control required disabled={isLoading} type="file" onChange={handleCurriculumVitaeChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <CertificateIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Certificado de graduación
                   </Form.Label>
-                  <Form.Control disabled={isLoading} type="file" onChange={handleGraduateCertificateChange} />
+                  <Form.Control required disabled={isLoading} type="file" onChange={handleGraduateCertificateChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <FileDocumentIcon size="1.5em" style={{ marginRight: '0.5em' }} />
                     Formulario de registro
                   </Form.Label>
-                  <Form.Control disabled={isLoading} type="file" onChange={handleRegistrationFormFile} />
+                  <Form.Control required disabled={isLoading} type="file" onChange={handleRegistrationFormFile} />
                 </Form.Group>
               </Col>
             </Row>
