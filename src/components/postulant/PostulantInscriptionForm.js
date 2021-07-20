@@ -3,63 +3,57 @@ import {
   Container, Row, Col, Form, Button, Modal,
 } from 'react-bootstrap';
 import SendIcon from 'mdi-react/SendIcon';
-import EmailIcon from 'mdi-react/EmailIcon';
-import AccountIcon from 'mdi-react/AccountIcon';
-import TextAccountIcon from 'mdi-react/TextAccountIcon';
+import CertificateIcon from 'mdi-react/CertificateIcon';
+import FileDocumentIcon from 'mdi-react/FileDocumentIcon';
+import FileDocumentMultipleIcon from 'mdi-react/FileDocumentMultipleIcon';
+import CardAccountDetailsIcon from 'mdi-react/CardAccountDetailsIcon';
+import BookAccountIcon from 'mdi-react/BookAccountIcon';
 import './PostulantInscriptionForm.css';
 
 const PostulantInscriptionForm = (props) => {
-  const [formState, setFormState] = useState({ name: '', email: '', lastName: '' });
+  const [birthCertificateFile, setBirthCertificateFile] = useState(null);
+  const [copyIdentityCardFile, setCopyIdentityCardFile] = useState(null);
+  const [curriculumVitaeFile, setCurriculumVitaeFile] = useState(null);
+  const [graduateCertificateFile, setGraduateCertificateFile] = useState(null);
+  const [registrationFormFile, setRegistrationFormFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { title, show, onHide } = props;
 
-  function handleNameChange(event) {
-    setFormState(
-      {
-        name: event.target.value,
-        email: formState.email,
-        lastName: formState.lastName,
-      },
-    );
+  function handleBirthCertificateChange(event) {
+    // validaciones
+    setBirthCertificateFile(event.target.value);
   }
 
-  function handleEmailChange(event) {
-    setFormState(
-      {
-        name: formState.name,
-        email: event.target.value,
-        lastName: formState.lastName,
-      },
-    );
+  function handleCopyIdentityCardChange(event) {
+    // validaciones
+    setCopyIdentityCardFile(event.target.value);
   }
 
-  function handleLastNameChange(event) {
-    setFormState(
-      {
-        name: formState.name,
-        email: formState.email,
-        lastName: event.target.value,
-      },
-    );
+  function handleCurriculumVitaeChange(event) {
+    // validaciones
+    setCurriculumVitaeFile(event.target.value);
+  }
+
+  function handleGraduateCertificateChange(event) {
+    // validaciones
+    setGraduateCertificateFile(event.target.value);
+  }
+
+  function handleRegistrationFormFile(event) {
+    // validaciones
+    setRegistrationFormFile(event.target.value);
   }
 
   async function handleSubmit(event) {
     setIsLoading(true);
     event.preventDefault();
-    const nameOnly = formState.name;
-    const lastNameOnly = formState.lastName;
-    const fullName = `${nameOnly} ${lastNameOnly}`;
     const payload = {
-      name: fullName,
-      email: formState.email,
+      name: 'das',
+      email: 'formState.email',
     };
     await props.onSubmitPostulantInscriptionForm(payload);
     setIsLoading(false);
-    setFormState({
-      name: '',
-      email: '',
-      lastName: '',
-    });
+    // Liberar states
   }
 
   return (
@@ -98,27 +92,38 @@ const PostulantInscriptionForm = (props) => {
               <Col>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
-                    <AccountIcon size="1.5em" style={{ marginRight: '0.5em' }} />
-                    Nombre
+                    <BookAccountIcon size="1.5em" style={{ marginRight: '0.5em' }} />
+                    Certificado de nacimiento
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} onChange={handleNameChange} value={formState.name} type="text" placeholder="Ingrese su nombre" />
+                  <Form.Control required disabled={isLoading} type="file" value={birthCertificateFile} onChange={handleBirthCertificateChange} />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
-                    <TextAccountIcon size="1.5em" style={{ marginRight: '0.5em' }} />
-                    Apellido
+                    <CardAccountDetailsIcon size="1.5em" style={{ marginRight: '0.5em' }} />
+                    Copia carnet de identidad
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} onChange={handleLastNameChange} value={formState.lastName} type="text" placeholder="Ingrese su apellido" />
+                  <Form.Control required disabled={isLoading} type="file" value={copyIdentityCardFile} onChange={handleCopyIdentityCardChange} />
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
-                    <EmailIcon size="1.5em" style={{ marginRight: '0.5em' }} />
-                    Correo electrónico
+                    <FileDocumentMultipleIcon size="1.5em" style={{ marginRight: '0.5em' }} />
+                    Curriculum Vitae
                   </Form.Label>
-                  <Form.Control required disabled={isLoading} onChange={handleEmailChange} value={formState.email} type="email" placeholder="Ingrese su correo electrónico" />
-                  <Form.Text className="text-muted">
-                    Por tu seguridad, no compartiremos este correo electrónico con nadie.
-                  </Form.Text>
+                  <Form.Control required disabled={isLoading} type="file" value={curriculumVitaeFile} onChange={handleCurriculumVitaeChange} />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
+                    <CertificateIcon size="1.5em" style={{ marginRight: '0.5em' }} />
+                    Certificado de graduación
+                  </Form.Label>
+                  <Form.Control required disabled={isLoading} type="file" value={graduateCertificateFile} onChange={handleGraduateCertificateChange} />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
+                    <FileDocumentIcon size="1.5em" style={{ marginRight: '0.5em' }} />
+                    Formulario de registro
+                  </Form.Label>
+                  <Form.Control required disabled={isLoading} type="file" value={registrationFormFile} onChange={handleRegistrationFormFile} />
                 </Form.Group>
               </Col>
             </Row>
