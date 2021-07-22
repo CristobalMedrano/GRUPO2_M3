@@ -3,3 +3,4 @@ build
 .dockerignore
 Dockerfile
 Dockerfile.prod
+docker-compose-m3.yml
