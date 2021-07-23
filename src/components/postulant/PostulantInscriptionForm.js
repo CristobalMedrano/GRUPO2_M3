@@ -59,13 +59,16 @@ const PostulantInscriptionForm = (props) => {
       curriculumVitaeFile, graduateCertificateFile, registrationFormFile];
     const arrayChars = ['birthCertificate', 'copyIdentityCard',
       'curriculumVitae', 'graduateCertificate', 'registrationForm'];
+    let promises = [];
     // eslint-disable-next-line
     let arrayLinks = [];
     const timeStamp = Date.now();
     const storageRef = storage.ref();
+
     arrayVars.forEach((element) => {
       // eslint-disable-next-line
       const uploadTask = storageRef.child(`${timeStamp + arrayChars[arrayVars.indexOf(element)] + '.pdf'}`).put(element);
+      promises.push(uploadTask);
       uploadTask.on('state_changed',
         (snapshot) => {
           // file upload progress report
@@ -77,39 +80,60 @@ const PostulantInscriptionForm = (props) => {
           console.log(error);
         },
         // eslint-disable-next-line
-        async () => {
+        () => {
           // file upload completed
           try {
             // eslint-disable-next-line
-            arrayLinks[arrayVars.indexOf(element)] = await storageRef.child(`${timeStamp + arrayChars[arrayVars.indexOf(element)] + '.pdf'}`).getDownloadURL();
-            console.log(arrayLinks);
-            if (arrayLinks.length === 5) {
-              console.log('SUBI TODO!');
-              const payload = {
-                birthCertificate: arrayLinks[0],
-                copyIdentityCard: arrayLinks[1],
-                curriculumVitae: arrayLinks[2],
-                graduateCertificate: arrayLinks[3],
-                registrationForm: arrayLinks[4],
-                received: false,
-                valid: false,
-              };
-              console.log(payload);
-              await props.onSubmitPostulantInscriptionForm(payload);
-              setIsLoading(false);
-              // Liberar states
-              setBirthCertificateFile(null);
-              setCopyIdentityCardFile(null);
-              setCurriculumVitaeFile(null);
-              setGraduateCertificateFile(null);
-              setRegistrationFormFile(null);
-              arrayLinks = [];
-            }
+            // arrayLinks[arrayVars.indexOf(element)] = await storageRef.child(`${timeStamp + arrayChars[arrayVars.indexOf(element)] + '.pdf'}`).getDownloadURL();
+            // eslint-disable-next-line
+            const gettingURL = uploadTask.snapshot.ref.getDownloadURL();
+            // urlPromises.push(gettingURL);
+            gettingURL.then((url) => {
+              // eslint-disable-next-line
+              console.log('ID: ' + arrayVars.indexOf(element) + 'URL: ' + url);
+              arrayLinks[arrayVars.indexOf(element)] = url;
+            });
+            // console.log(arrayLinks);
           } catch (error) {
             console.log(error);
           }
         });
     });
+    Promise.all(promises)
+      .then(async () => {
+        // TODOS LOS ARCHIVOS FUERON SUBIDOS EN ESTE PUNTO
+        console.log('SUBI TODO!');
+        const payload = {
+          // eslint-disable-next-line
+          birthCertificate: await storageRef.child(`${timeStamp + arrayChars[0] + '.pdf'}`).getDownloadURL(),
+          // eslint-disable-next-line
+          copyIdentityCard: await storageRef.child(`${timeStamp + arrayChars[1] + '.pdf'}`).getDownloadURL(),
+          // eslint-disable-next-line
+          curriculumVitae: await storageRef.child(`${timeStamp + arrayChars[2] + '.pdf'}`).getDownloadURL(),
+          // eslint-disable-next-line
+          graduateCertificate: await storageRef.child(`${timeStamp + arrayChars[3] + '.pdf'}`).getDownloadURL(),
+          // eslint-disable-next-line
+          registrationForm: await storageRef.child(`${timeStamp + arrayChars[4] + '.pdf'}`).getDownloadURL(),
+          received: false,
+          valid: false,
+        };
+        console.log(payload);
+        try {
+          await props.onSubmitPostulantInscriptionForm(payload);
+        } catch (error) {
+          console.log(error);
+        }
+        setIsLoading(false);
+        // Liberar states
+        setBirthCertificateFile(null);
+        setCopyIdentityCardFile(null);
+        setCurriculumVitaeFile(null);
+        setGraduateCertificateFile(null);
+        setRegistrationFormFile(null);
+        arrayLinks = [];
+        promises = [];
+      })
+      .catch((error) => console.log(error));
   }
 
   return (
