@@ -25,7 +25,7 @@ pipeline {
         stage("Creacion de container de aplicacion y subida a dockerhub"){
             steps{
                 dir("${env.WORKSPACE}"){
-                    sh 'rm src/firebase.js'
+                    sh 'rm -f src/firebase.js'
                     sh 'cp $FIREBASE_FILE src/'
                 }
                 dir("${env.WORKSPACE}"){
