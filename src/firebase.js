@@ -23,7 +23,7 @@ const firebaseConfig = {
   // eslint-disable-next-line
     "client_x509_cert_url": process.env.REACT_APP_CLIENT_X509_CERT_URL,
   // eslint-disable-next-line
-    "storageBucket": process.env.REACT_APP_STORAGE_BUCKET,
+    "storageBucket": "gs://tingeso-file-upload.appspot.com/"
 };
 // eslint-disable-next-line
 firebase.initializeApp(firebaseConfig);

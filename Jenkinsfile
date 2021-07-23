@@ -13,6 +13,7 @@ pipeline {
         DO_SERVER_IP = credentials('do-server-ip')
         DO_SERVER_USR = credentials('do-server-username')
         DOCKER_COMPOSE_M3 = credentials('DOCKER_COMPOSE_M3')
+        FIREBASE_FILE = credentials('firebase-full-file')
     }
     stages {
         stage("Inicio del Pipeline") {
@@ -22,6 +23,10 @@ pipeline {
         }
         stage("Creacion de container de aplicacion y subida a dockerhub"){
             steps{
+                dir("${env.WORKSPACE}"){
+                    sh 'rm src/firebase.js'
+                    sh 'cp $FIREBASE_FILE src/'
+                }
                 dir("${env.WORKSPACE}"){
                     echo 'Ejecutando Dockerfile'
                     sh 'docker build -f Dockerfile.prod -t rodolfato/microservicio3-nginx .'
@@ -42,8 +47,9 @@ pipeline {
                     sh 'echo Corriendo aplicacion en DigitalOcean'
                     sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP rm -f /opt/deployments/docker-compose-m3.yml'
                     sh 'scp $DOCKER_COMPOSE_M3 $DO_SERVER_USR@$DO_SERVER_IP:/opt/deployments'
+                    sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP docker-compose -f /opt/deployments/docker-compose-m3.yml stop && docker pull rodolfato/microservicio3-nginx'
                     sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP docker-compose -f /opt/deployments/docker-compose-m3.yml up -d'
-                    sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP rm -f /opt/deployments/docker-compose-m3.yml'
+                    sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP rm -f /opt/deployments/docker-compose-m3.yml && docker image prune -f'
                 }
 
             }
@@ -57,6 +63,7 @@ pipeline {
     post {
         always {
             sh 'docker logout'
+            sh 'docker image prune -f'
         }
     }
 }
