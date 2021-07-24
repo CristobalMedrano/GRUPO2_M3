@@ -16,7 +16,7 @@ const DiplomatePage = () => {
   useEffect(async () => {
     try {
       setIsLoading(true);
-      const res = await axios({ method: 'GET', url: `http://localhost:8081/api/v1/diplomates/${diplomadoId}` });
+      const res = await axios({ method: 'GET', url: `http://138.197.13.81:8081/api/v1/diplomates/${diplomadoId}` });
       setDiplomate(res.data);
       setIsLoading(false);
     } catch (error) {
@@ -33,7 +33,7 @@ const DiplomatePage = () => {
     try {
       // eslint-disable-next-line
       console.log("enviando...");
-      await axios.post('http://localhost:8081/api/v1/postulants', payload, { headers });
+      await axios.post('http://138.197.13.81:8081/api/v1/postulants', payload, { headers });
       console.log('enviado!');
     } catch (error) {
       // eslint-disable-next-line
@@ -50,7 +50,7 @@ const DiplomatePage = () => {
     try {
       // eslint-disable-next-line
       console.log("enviando...");
-      await axios.post(`http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations`, payload, { headers });
+      await axios.post(`http://138.197.13.81:8082/api/v1/diplomates/${diplomadoId}/postulations`, payload, { headers });
       console.log('enviado!');
     } catch (error) {
       // eslint-disable-next-line
