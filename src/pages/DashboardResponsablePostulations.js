@@ -25,7 +25,7 @@ const DashboardResponsablePostulations = () => {
   useEffect(async () => {
     try {
       setIsLoading(true);
-      const res = await axios({ method: 'GET', url: `http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations` });
+      const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8082/api/v1/diplomates/${diplomadoId}/postulations` });
       res.data.sort((a, b) => {
         if (a.id < b.id) { return -1; }
         if (a.id > b.id) { return 1; }

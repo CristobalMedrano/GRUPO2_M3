@@ -3,13 +3,6 @@ pipeline {
     environment {
         BACKEND_FOLDER = ""
         DOCKERHUB_CREDENTIALS = credentials('rodolfato-dockerhub')
-        FIREBASE_PROJECT_ID = credentials('firebase-project-id')
-        FIREBASE_PRIVATE_KEY_ID = credentials('firebase-private-key-id')
-        FIREBASE_CLIENT_EMAIL = credentials('firebase-client-email')
-        FIREBASE_CLIENT_ID = credentials('firebase-client-id')
-        FIREBASE_PRIVATE_KEY = credentials('firebase-private-key')
-        FIREBASE_CLIENT_X509_CERT_URL = credentials('firebase-client-x509-cert-url')
-        FIREBASE_STORAGEBUCKET = credentials('firebase-storageBucket')
         DO_SERVER_IP = credentials('do-server-ip')
         DO_SERVER_USR = credentials('do-server-username')
         DOCKER_COMPOSE_M3 = credentials('DOCKER_COMPOSE_M3')
@@ -30,7 +23,7 @@ pipeline {
                 }
                 dir("${env.WORKSPACE}"){
                     echo 'Ejecutando Dockerfile'
-                    sh 'docker build -f Dockerfile.prod -t rodolfato/microservicio3-nginx:$GIT_COMMIT -t rodolfato/microservicio3-nginx .'
+                    sh 'docker build --build-arg REACT_APP_IP_HOST=$DO_SERVER_IP -f Dockerfile.prod -t rodolfato/microservicio3-nginx:$GIT_COMMIT -t rodolfato/microservicio3-nginx .'
                 }
                 dir("${env.WORKSPACE}"){
                     echo 'Login a Dockerhub'
@@ -50,7 +43,7 @@ pipeline {
                     sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP rm -f /opt/deployments/docker-compose-m3.yml'
                     sh 'scp $DOCKER_COMPOSE_M3 $DO_SERVER_USR@$DO_SERVER_IP:/opt/deployments'
                     sh 'scp $BASH_SCRIPT_M3 $DO_SERVER_USR@$DO_SERVER_IP:/opt/deployments'
-                    sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP bash /opt/deployments/m3_script.sh $GIT_COMMIT'
+                    sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP bash /opt/deployments/m3_script.sh $GIT_COMMIT $DO_SERVER_IP'
                     sh 'ssh -o StrictHostKeyChecking=no $DO_SERVER_USR@$DO_SERVER_IP rm /opt/deployments/m3_script.sh -f'
                 }
 
@@ -65,7 +58,7 @@ pipeline {
     post {
         always {
             sh 'docker logout'
-            sh 'docker image prune -f'
+            sh 'docker system prune -f'
         }
     }
 }
