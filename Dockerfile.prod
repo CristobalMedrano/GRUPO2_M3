@@ -6,6 +6,10 @@ COPY package-lock.json ./
 RUN npm ci --silent
 RUN npm install react-scripts@3.4.1 -g --silent
 COPY . ./
+
+ARG REACT_APP_IP_HOST
+ENV REACT_APP_IP_HOST $REACT_APP_IP_HOST
+
 RUN npm run build
 
 FROM nginx:stable-alpine

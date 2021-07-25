@@ -8,7 +8,6 @@ import DiplomateIcon from 'mdi-react/CertificateOutlineIcon';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import HomeBanner from '../components/app/HomeBanner';
-// import DiplomateImage from '../images/woman_working_computers.jpg';
 import DiplomatePreview from '../components/diplomate/DiplomatePreview';
 
 const Home = () => {
@@ -20,7 +19,7 @@ const Home = () => {
     if (diplomateArray.length === 0) {
       try {
         setIsLoading(true);
-        const res = await axios({ method: 'GET', url: 'http://138.197.13.81:8081/api/v1/diplomates' });
+        const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8081/api/v1/diplomates` });
         setDiplomateArray(res.data);
         setIsLoading(false);
       } catch (error) {

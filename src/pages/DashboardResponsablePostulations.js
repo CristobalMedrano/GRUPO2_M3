@@ -25,7 +25,7 @@ const DashboardResponsablePostulations = () => {
   useEffect(async () => {
     try {
       setIsLoading(true);
-      const res = await axios({ method: 'GET', url: `http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations` });
+      const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8082/api/v1/diplomates/${diplomadoId}/postulations` });
       const validPostulants = [...res.data].filter((postulant) => postulant.valid);
 
       validPostulants.sort((a, b) => {

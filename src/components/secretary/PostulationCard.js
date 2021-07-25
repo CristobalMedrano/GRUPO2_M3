@@ -16,7 +16,7 @@ const PostulationCard = (props) => {
   useEffect(async () => {
     setIsLoading(true);
     try {
-      const res = await axios({ method: 'GET', url: `http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations/${postulationId}` });
+      const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8082/api/v1/diplomates/${diplomadoId}/postulations/${postulationId}` });
       setPostulation(res.data);
       console.log(res.data);
     } catch (error) {
@@ -33,7 +33,7 @@ const PostulationCard = (props) => {
       setIsLoading(true);
       // eslint-disable-next-line
       console.log("enviando...");
-      await axios.put(`http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations/${payload.id}`, payload.postulation, { headers });
+      await axios.put(`http://${process.env.REACT_APP_IP_HOST}:8082/api/v1/diplomates/${diplomadoId}/postulations/${payload.id}`, payload.postulation, { headers });
       console.log('enviado!');
       setIsLoading(false);
     } catch (error) {
