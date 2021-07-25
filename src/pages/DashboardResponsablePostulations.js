@@ -26,12 +26,14 @@ const DashboardResponsablePostulations = () => {
     try {
       setIsLoading(true);
       const res = await axios({ method: 'GET', url: `http://localhost:8082/api/v1/diplomates/${diplomadoId}/postulations` });
-      res.data.sort((a, b) => {
+      const validPostulants = [...res.data].filter((postulant) => postulant.valid);
+
+      validPostulants.sort((a, b) => {
         if (a.id < b.id) { return -1; }
         if (a.id > b.id) { return 1; }
         return 0;
       });
-      setPostulations(res.data);
+      setPostulations(validPostulants);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
