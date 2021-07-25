@@ -1,0 +1,13 @@
+.navbar-light .navbar-nav .nav-link {
+  margin-left: 0.4em;
+  margin-right: 0.4em;
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+  border-bottom: 2px solid #e8813a;
+  color: #e8813a;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #e8813a;
+}

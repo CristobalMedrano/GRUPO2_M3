@@ -1,0 +1,21 @@
+.btn-document {
+  background-color: transparent;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  font-weight: bold;
+  color: black;
+}
+
+.btn-document:hover {
+  background-color: #06497f1a;
+  color: black;
+}
+
+.btn-document:disabled {
+  background-color: #595959;
+  color: gray;
+}

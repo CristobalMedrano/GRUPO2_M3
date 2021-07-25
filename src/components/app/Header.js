@@ -3,10 +3,13 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { LinkContainer } from 'react-router-bootstrap';
 import {
-  Container, NavItem, Button,
+  Container,
 } from 'react-bootstrap';
 import LoginIcon from 'mdi-react/LoginIcon';
+import AccountIcon from 'mdi-react/AccountIcon';
+import HomeIcon from 'mdi-react/HomeIcon';
 import HeaderLogo from './HeaderLogo';
+import './Header.css';
 
 export default function Header() {
   return (
@@ -17,36 +20,56 @@ export default function Header() {
       </div>
       <Navbar sticky="top" variant="light" style={{ backgroundColor: '#fff', borderBottom: '1px solid #EEEEEE' }}>
         <Container>
-          <LinkContainer to="/">
+          <LinkContainer to="/inicio">
             <Navbar.Brand>
               <HeaderLogo />
             </Navbar.Brand>
           </LinkContainer>
-          <Nav className="me-auto">
-            <NavItem>
-              <LinkContainer to="/postular">
-                <Nav.Link>Postular</Nav.Link>
-              </LinkContainer>
-            </NavItem>
-            <NavItem>
-              <LinkContainer to="/secretaria">
-                <Nav.Link>Secretaria</Nav.Link>
-              </LinkContainer>
-            </NavItem>
-            <NavItem>
-              <LinkContainer to="/moreInfo">
-                <Nav.Link>More Info</Nav.Link>
-              </LinkContainer>
-            </NavItem>
-          </Nav>
           <Nav>
             <Nav.Item>
-              <Button variant="outline-primary">
+              <LinkContainer to="/inicio">
                 <Nav.Link style={{ color: 'white' }}>
-                  <LoginIcon style={{ marginRight: '0.3em' }} />
-                  Iniciar Sesión
+                  <div
+                    className="customLink"
+                    style={{
+                      display: 'flex', alignItems: 'center', fontSize: '1em',
+                    }}
+                  >
+                    <HomeIcon style={{ marginRight: '0.3em' }} />
+                    Inicio
+                  </div>
                 </Nav.Link>
-              </Button>
+              </LinkContainer>
+            </Nav.Item>
+            <Nav.Item>
+              <LinkContainer to="/tablero/secretaria">
+                <Nav.Link style={{ color: 'white' }}>
+                  <div style={{ diplay: 'flex', alignItems: 'center' }}>
+                    <AccountIcon style={{ marginRight: '0.3em' }} />
+                    Secretaria
+                  </div>
+                </Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+            <Nav.Item>
+              <LinkContainer to="/tablero/consejo">
+                <Nav.Link style={{ color: 'white' }}>
+                  <div style={{ diplay: 'flex', alignItems: 'center' }}>
+                    <AccountIcon style={{ marginRight: '0.3em' }} />
+                    Consejo de Postulación
+                  </div>
+                </Nav.Link>
+              </LinkContainer>
+            </Nav.Item>
+            <Nav.Item>
+              <LinkContainer to="/iniciar-sesion">
+                <Nav.Link style={{ color: 'white' }}>
+                  <div style={{ diplay: 'flex', alignItems: 'center' }}>
+                    <LoginIcon style={{ marginRight: '0.3em' }} />
+                    Iniciar Sesión
+                  </div>
+                </Nav.Link>
+              </LinkContainer>
             </Nav.Item>
           </Nav>
         </Container>

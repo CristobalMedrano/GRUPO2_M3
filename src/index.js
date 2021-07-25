@@ -1,33 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import PostulantPage from './pages/PostulantPage';
-import SecretaryPage from './pages/SecretaryPage';
-import PostulantMoreInfoPage from './pages/PostulantMoreInfoPage';
-import DiplomatePage from './pages/DiplomatePage';
+import { pdfjs } from 'react-pdf';
 import App from './App';
-import Header from './components/app/Header';
 import reportWebVitals from './reportWebVitals';
-import Footer from './components/app/Footer';
-import ScrollToTop from './components/app/ScrollToTop';
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <ScrollToTop />
-      <Header />
-      <div style={{ minHeight: 'calc(100vh - 230px)' }}>
-        <Switch>
-          <Route exact path="/" component={App} />
-          <Route path="/postular" component={PostulantPage} />
-          <Route path="/secretaria" component={SecretaryPage} />
-          <Route path="/diplomado/:diplomadoId" component={DiplomatePage} />
-          <Route path="/postular" component={PostulantMoreInfoPage} />
-        </Switch>
-      </div>
-      <Footer />
-    </Router>
+    <App />
   </React.StrictMode>,
   document.getElementById('root'),
 );

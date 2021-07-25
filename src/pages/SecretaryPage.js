@@ -2,7 +2,7 @@ import React from 'react';
 
 const SecretaryPage = () => (
   <div>
-    <p>Pagina de la secretaria</p>
+    <p>Pagina de la -</p>
   </div>
 );
 
