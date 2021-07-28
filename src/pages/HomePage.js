@@ -19,7 +19,7 @@ const Home = () => {
     if (diplomateArray.length === 0) {
       try {
         setIsLoading(true);
-        const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8081/api/v1/diplomates` });
+        const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST ? process.env.REACT_APP_IP_HOST : 'localhost'}:8081/api/v1/diplomates` });
         setDiplomateArray(res.data);
         setIsLoading(false);
       } catch (error) {
