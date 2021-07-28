@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import HomeBanner from '../components/app/HomeBanner';
 import DiplomatePreview from '../components/diplomate/DiplomatePreview';
+import DiplomatePreviewSkeleton from '../components/diplomate/DiplomatePreviewSkeleton';
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +89,7 @@ const Home = () => {
                 <ul>
                   <li>Evaluación 1: Miércoles 04 de Mayo, 2021</li>
                   <li>Evaluación 2: Martes 01 de Junio, 2021</li>
-                  <li>Evaluación 3: Miércoles 28 de Julio, 2021</li>
+                  <li>Evaluación 3: Miércoles 11 de Agosto, 2021</li>
                 </ul>
               </Card.Body>
             </Card>
@@ -109,7 +110,7 @@ const Home = () => {
           </Col>
         </Row>
         <Row className="mb-4">
-          {isLoading && (<p>Cargando....</p>)}
+          {isLoading && (<DiplomatePreviewSkeleton />)}
           {!isLoading && diplomateCards}
         </Row>
       </Container>
