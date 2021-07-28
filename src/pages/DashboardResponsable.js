@@ -19,11 +19,11 @@ const DashboardResponsable = () => {
       try {
         setIsLoading(true);
         const diplomatePostulants = [];
-        const resDiplomate = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8082/api/v1/diplomates` });
+        const resDiplomate = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST ? process.env.REACT_APP_IP_HOST : 'localhost'}:8082/api/v1/diplomates` });
         const diplomates = resDiplomate.data;
         await Promise.all(
           diplomates.map(async (diplomate) => {
-            const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST}:8082/api/v1/diplomates/${diplomate.id}/postulations` });
+            const res = await axios({ method: 'GET', url: `http://${process.env.REACT_APP_IP_HOST ? process.env.REACT_APP_IP_HOST : 'localhost'}:8082/api/v1/diplomates/${diplomate.id}/postulations` });
             const validPostulants = [...res.data].filter((postulant) => postulant.valid);
             const postulation = {
               title: diplomate.title,
