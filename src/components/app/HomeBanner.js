@@ -31,7 +31,7 @@ const HomeBanner = () => (
         Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina.
       </h3>
       <div className="text-center mt-4 noselect">
-        <Button variant="flat">INSCRÍBETE AHORA</Button>
+        <Button variant="flat">¡INSCRÍBETE AHORA!</Button>
       </div>
 
     </div>
