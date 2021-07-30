@@ -169,7 +169,7 @@ const PostulantInscriptionForm = (props) => {
         <Modal.Body>
           <Container>
             <Row>
-              <Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <BookAccountIcon size="1.5em" style={{ marginRight: '0.5em' }} />
@@ -191,6 +191,8 @@ const PostulantInscriptionForm = (props) => {
                   </Form.Label>
                   <Form.Control required disabled={isLoading} type="file" onChange={handleCurriculumVitaeChange} />
                 </Form.Group>
+              </Col>
+              <Col sm={6}>
                 <Form.Group className="mb-3">
                   <Form.Label style={{ color: '#0c497e', display: 'flex', alignItems: 'center' }}>
                     <CertificateIcon size="1.5em" style={{ marginRight: '0.5em' }} />

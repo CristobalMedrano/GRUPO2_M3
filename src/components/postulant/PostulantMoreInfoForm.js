@@ -53,7 +53,7 @@ const PostulantMoreInfoForm = (props) => {
       name: fullName,
       email: formState.email,
     };
-    await props.onSubmitPostulantInscriptionForm(payload);
+    await props.onSubmitPostulantForm(payload);
     setIsLoading(false);
     setFormState({
       name: '',

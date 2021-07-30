@@ -135,7 +135,7 @@ const DiplomateCard = (props) => {
             display: 'flex', padding: '0 1em 1em 1em',
           }}
         >
-          <Button variant="card" style={{ width: '100%' }} onClick={() => { setShowInscriptionModal(true); }}>¡Inscríbete aquí!</Button>
+          <Button variant="card" style={{ width: '100%' }} onClick={() => { setShowInscriptionModal(true); }}>¡Postular!</Button>
 
         </div>
       </Card>

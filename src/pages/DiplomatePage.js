@@ -1,16 +1,19 @@
+/* eslint-disable no-unused-vars */
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
   Container, Row, Col,
 } from 'react-bootstrap';
-
 import { useParams } from 'react-router-dom';
+import Notification from '../components/app/Notification';
 import DiplomateCard from '../components/diplomate/DiplomateCard';
 
 const DiplomatePage = () => {
   const { diplomadoId } = useParams();
   const [diplomate, setDiplomate] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState('');
 
   // const [modalShow, setModalShow] = React.useState(false);
   useEffect(async () => {
@@ -34,6 +37,12 @@ const DiplomatePage = () => {
       // eslint-disable-next-line
       console.log("enviando...");
       await axios.post(`http://${process.env.REACT_APP_IP_HOST ? process.env.REACT_APP_IP_HOST : 'localhost'}:8081/api/v1/postulants`, payload, { headers });
+      setMessage('¡Tu solicitud de contacto ha sido enviada!.');
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+        setMessage('');
+      }, 4000);
       console.log('enviado!');
     } catch (error) {
       // eslint-disable-next-line
@@ -51,6 +60,12 @@ const DiplomatePage = () => {
       // eslint-disable-next-line
       console.log("enviando...");
       await axios.post(`http://${process.env.REACT_APP_IP_HOST ? process.env.REACT_APP_IP_HOST : 'localhost'}:8082/api/v1/diplomates/${diplomadoId}/postulations`, payload, { headers });
+      setMessage('¡Tu solicitud de inscripción ha sido enviada!.');
+      setShowModal(true);
+      setTimeout(() => {
+        setShowModal(false);
+        setMessage('');
+      }, 4000);
       console.log('enviado!');
     } catch (error) {
       // eslint-disable-next-line
@@ -209,6 +224,11 @@ const DiplomatePage = () => {
           </Col>
         </Row>
       </Container>
+      <Notification
+        show={showModal}
+        message={message}
+        onHide={() => { setShowModal(false); }}
+      />
     </>
 
   );
