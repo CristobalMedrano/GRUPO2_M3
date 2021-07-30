@@ -30,10 +30,10 @@ const PostulationCardDocument = (props) => {
       <PostulationCardDocumentView
         show={showModal}
         onHide={() => { setShowModal(false); }}
-        document={documentUrl}
-      >
-        <h1>hola</h1>
-      </PostulationCardDocumentView>
+        documentIcon={<FileDocumentOutlineIcon />}
+        documentUrl={documentUrl}
+        documentName={documentName}
+      />
     </>
   );
 };
