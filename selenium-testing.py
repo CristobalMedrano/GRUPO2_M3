@@ -20,13 +20,57 @@ class SeleniumTesting(unittest.TestCase):
 
     def test_read_main_title(self):
         driver = self.driver
-        url = "http://localhost:3000"
-        driver.get(url)
+        driver.get("http://localhost:3000")
         delay = 10  # seconds
         wait = WebDriverWait(driver, delay)
         title = wait.until(EC.presence_of_element_located(
             (By.ID, 'title')))
         self.assertEqual(title.text, "Educación Continua")
+
+    def test_read_main_subtitle(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        delay = 10  # seconds
+        wait = WebDriverWait(driver, delay)
+        item = wait.until(lambda d: d.find_element_by_tag_name("a"))
+        self.assertEqual(item.text, "Educación Continua\nDiplomados")
+
+    def test_click_diplomate(self):
+        # Se conecta a la pagina
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        # Espera que se cargue durante 5 segundos
+        time.sleep(5)
+        # Busca el boton incribete ahora
+        diplomate_list_button = driver.find_element(
+            By.LINK_TEXT, "¡INSCRÍBETE AHORA!")
+        # Le da click al boton
+        webdriver.ActionChains(driver).click(
+            diplomate_list_button).perform()
+        # La transicion toma tiempo por eso los 3 segundos
+        time.sleep(3)
+        # Se busca el titulo del primer diplomado que encuentre
+        diplomate_title = driver.find_element(
+            By.XPATH, "//div[starts-with(@id, 'diplomado-')]/div/div/div[@class='card-title h5']")
+        # Se guarda el titulo encontrado
+        diplomate_preview_title = diplomate_title.text
+        # Se busca el boton ver detalles del diplomado
+        diplomate_button = driver.find_element(
+            By.XPATH, "//div[starts-with(@id, 'diplomado-')]//button")
+        # Se apreta el boton ver detalles
+        webdriver.ActionChains(driver).click(
+            diplomate_button).perform()
+        delay = 10  # seconds
+        # Se espera que la pagina cargue
+        wait = WebDriverWait(driver, delay)
+        # Busca si el titulo del diplomado que cargó es igual al que tenia el anterior.
+        loaded_diplomate_title = wait.until(EC.presence_of_element_located(
+            (By.ID, 'title')))
+        # Compara ambos titulos.
+        self.assertEqual(loaded_diplomate_title.text, diplomate_preview_title)
+
+    def tearDown(self):
+        self.driver.quit()
 
 
 if __name__ == "__main__":

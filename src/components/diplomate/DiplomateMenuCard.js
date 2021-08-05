@@ -9,7 +9,7 @@ import CurrencyUsd from 'mdi-react/CurrencyUsdIcon';
 import AccoutCheckOutline from 'mdi-react/AccountCheckOutlineIcon';
 import ConctactIcon from 'mdi-react/AccountOutlineIcon';
 import AccountArrowRightOutline from 'mdi-react/AccountArrowRightOutlineIcon';
-import ArrowUpIcon from 'mdi-react/ArrowUpBoldOutlineIcon';
+import ArrowLeftIcon from 'mdi-react/ArrowLeftBoldOutlineIcon';
 
 const DiplomateMenuCard = (props) => {
   const { id } = props;
@@ -24,9 +24,9 @@ const DiplomateMenuCard = (props) => {
         border: 'none', borderRadius: '10px', backgroundColor: '#F4F8FB', borderTop: '10px solid #0C497E', paddingTop: '1em',
       }}
     >
-      <Link className="btn-diplomate-link" to={`/diplomado/${id}#inicio`} smooth scroll={(el) => scrollWithOffset(el)}>
-        <ArrowUpIcon style={{ marginRight: '0.5em' }} />
-        Diplomado
+      <Link className="btn-diplomate-link" to="/#listado-diplomados" smooth scroll={(el) => scrollWithOffset(el)}>
+        <ArrowLeftIcon style={{ marginRight: '0.5em' }} />
+        Volver
       </Link>
       <Link className="btn-diplomate-link" to={`/diplomado/${id}#objetivos-y-descripcion`} smooth scroll={(el) => scrollWithOffset(el)}>
         <CheckboxOutlineIcon style={{ marginRight: '0.5em' }} />

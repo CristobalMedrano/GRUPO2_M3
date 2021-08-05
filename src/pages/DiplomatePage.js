@@ -205,7 +205,7 @@ const DiplomatePage = () => {
           >
             Departamento de Ingeniería Informática
           </h1>
-          <h2 className="noselect" style={{ textAlign: 'center', fontSize: '3em', color: '#E86A35' }}>
+          <h2 id="title" className="noselect" style={{ textAlign: 'center', fontSize: '3em', color: '#E86A35' }}>
             { diplomate.title}
           </h2>
         </div>

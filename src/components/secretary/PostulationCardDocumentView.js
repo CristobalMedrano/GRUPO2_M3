@@ -26,6 +26,7 @@ const PostulationCardDocumentView = (props) => {
       size="lg"
       centered
       backdrop="static"
+      onHide={onHide}
     >
       <Modal.Header style={{ border: 'none', fontWeight: 'bold' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -36,10 +37,10 @@ const PostulationCardDocumentView = (props) => {
         </div>
       </Modal.Header>
       {loading && (
-      <hr style={{
-        marginTop: '0em', marginBottom: '0em', marginLeft: '1em', marginRight: '1em',
-      }}
-      />
+        <hr style={{
+          marginTop: '0em', marginBottom: '0em', marginLeft: '1em', marginRight: '1em',
+        }}
+        />
       )}
       <Modal.Body style={{ display: 'flex', justifyContent: 'center', backgroundColor: loading ? 'transparent' : '#C0C0C0' }}>
         <Document
