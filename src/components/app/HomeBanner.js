@@ -23,11 +23,11 @@ const HomeBanner = () => (
       transform: 'translate(-50%, -50%)',
     }}
     >
-      <h1 className="noselect" style={{ textAlign: 'center', fontSize: '1.2em', marginBottom: '0px' }}>Departamento de Ingeniería Informática</h1>
-      <h2 className="noselect" style={{ textAlign: 'center', fontSize: '3em' }}>
+      <h1 id="departamento" className="noselect" style={{ textAlign: 'center', fontSize: '1.2em', marginBottom: '0px' }}>Departamento de Ingeniería Informática</h1>
+      <h2 id="title" className="noselect" style={{ textAlign: 'center', fontSize: '3em' }}>
         Educación Continua
       </h2>
-      <h3 className="noselect" style={{ textAlign: 'center', fontSize: '1em' }}>
+      <h3 id="subtitle" className="noselect" style={{ textAlign: 'center', fontSize: '1em' }}>
         Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina.
       </h3>
       <div className="text-center mt-4 noselect">
