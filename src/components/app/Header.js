@@ -20,27 +20,27 @@ export default function Header() {
       </div>
       <Navbar sticky="top" variant="light" style={{ backgroundColor: '#fff', borderBottom: '1px solid #EEEEEE' }}>
         <Container>
-          <LinkContainer to="/inicio">
+          <LinkContainer to="/">
             <Navbar.Brand>
               <HeaderLogo />
             </Navbar.Brand>
           </LinkContainer>
+          <Nav className="me-auto">
+            <LinkContainer to="/">
+              <Nav.Link style={{ color: 'white' }}>
+                <div
+                  className="customLink"
+                  style={{
+                    display: 'flex', alignItems: 'center', fontSize: '1em',
+                  }}
+                >
+                  <HomeIcon style={{ marginRight: '0.3em' }} />
+                  Inicio
+                </div>
+              </Nav.Link>
+            </LinkContainer>
+          </Nav>
           <Nav>
-            <Nav.Item>
-              <LinkContainer to="/inicio">
-                <Nav.Link style={{ color: 'white' }}>
-                  <div
-                    className="customLink"
-                    style={{
-                      display: 'flex', alignItems: 'center', fontSize: '1em',
-                    }}
-                  >
-                    <HomeIcon style={{ marginRight: '0.3em' }} />
-                    Inicio
-                  </div>
-                </Nav.Link>
-              </LinkContainer>
-            </Nav.Item>
             <Nav.Item>
               <LinkContainer to="/tablero/secretaria">
                 <Nav.Link style={{ color: 'white' }}>

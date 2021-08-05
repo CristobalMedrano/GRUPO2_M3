@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  BrowserRouter as Router, Switch, Route, Redirect,
+  BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import PostulantPage from './pages/PostulantPage';
 import SecretaryPage from './pages/SecretaryPage';
@@ -8,7 +8,7 @@ import PostulantMoreInfoPage from './pages/PostulantMoreInfoPage';
 import DiplomatePage from './pages/DiplomatePage';
 import Header from './components/app/Header';
 import Footer from './components/app/Footer';
-import ScrollToTop from './components/app/ScrollToTop';
+// import ScrollToTop from './components/app/ScrollToTop';
 import LoginPage from './pages/LoginPage';
 import DashboardSecretary from './pages/DashboardSecretary';
 import DashboardResponsable from './pages/DashboardResponsable';
@@ -30,15 +30,10 @@ function App() {
 
   return (
     <Router>
-      <ScrollToTop />
       <Header />
       <div style={{ minHeight: 'calc(100vh - 230px)' }}>
-        <Redirect
-          from="/"
-          to="/inicio"
-        />
         <Switch>
-          <Route exact path="/inicio" component={HomePage} />
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/tablero/secretaria" component={DashboardSecretary} />
           <Route exact path="/tablero/secretaria/diplomado/:diplomadoId" component={DashboardSecretaryPostulations} />
           <Route exact path="/tablero/consejo" component={DashboardResponsable} />

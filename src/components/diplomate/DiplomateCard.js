@@ -8,6 +8,9 @@ import SchoolOutlineIcon from 'mdi-react/SchoolOutlineIcon';
 import AccountMultipleOutlineIcon from 'mdi-react/AccountMultipleOutlineIcon';
 import CurrencyUsd from 'mdi-react/CurrencyUsdIcon';
 import AccoutCheckOutline from 'mdi-react/AccountCheckOutlineIcon';
+import ConctactIcon from 'mdi-react/AccountOutlineIcon';
+import AccountArrowRightOutline from 'mdi-react/AccountArrowRightOutlineIcon';
+
 import DiplomateCardAcademic2 from './DiplomateCardAcademic2';
 import DiplomateCardContent from './DiplomateCardContent';
 import DiplomateCardTitle from './DiplomateCardTitle';
@@ -55,89 +58,105 @@ const DiplomateCard = (props) => {
           border: 'none', borderRadius: '10px', backgroundColor: '#F4F8FB', borderTop: '10px solid #0C497E', paddingTop: '1em',
         }}
       >
-        <DiplomateCardTitle title="Objetivos y Descripción" icon={<CheckboxOutlineIcon style={{ marginRight: '0.5em' }} />} />
-        <DiplomateCardContent content={objectives} />
-        <DiplomateCardTitle title="Plan de estudios" icon={<SchoolOutlineIcon style={{ marginRight: '0.5em' }} />} />
-        <DiplomateCardSyllabusList
-          numberCoursesDuration={syllabus[0].numberCoursesDuration}
-          programCourses={syllabus[0].programCourses}
-          approbalRequirements={syllabus[0].approbalRequirements}
-        />
-        <DiplomateCardTitle title="Cuerpo docente" icon={<AccountMultipleOutlineIcon style={{ marginRight: '0.5em' }} />} />
-        <Row style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
-          <p>
-            El cuerpo docente se compone de auditores e ingenieros de alto
-            nivel académico o profesionales de reconocido prestigio y experiencia laboral.
+        <div id="objetivos-y-descripcion">
+          <DiplomateCardTitle title="Objetivos y Descripción" icon={<CheckboxOutlineIcon style={{ marginRight: '0.5em' }} />} />
+          <DiplomateCardContent content={objectives} />
+        </div>
+        <div id="plan-de-estudios">
+          <DiplomateCardTitle title="Plan de estudios" icon={<SchoolOutlineIcon style={{ marginRight: '0.5em' }} />} />
+          <DiplomateCardSyllabusList
+            numberCoursesDuration={syllabus[0].numberCoursesDuration}
+            programCourses={syllabus[0].programCourses}
+            approbalRequirements={syllabus[0].approbalRequirements}
+          />
+        </div>
+        <div id="cuerpo-docente">
+          <DiplomateCardTitle title="Cuerpo docente" icon={<AccountMultipleOutlineIcon style={{ marginRight: '0.5em' }} />} />
+          <Row style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
+            <p>
+              El cuerpo docente se compone de auditores e ingenieros de alto
+              nivel académico o profesionales de reconocido prestigio y experiencia laboral.
+            </p>
+            {diplomateCardsAcademic}
+          </Row>
+        </div>
+        <div id="aranceles">
+          <DiplomateCardTitle title="Aranceles" icon={<CurrencyUsd style={{ marginRight: '0.5em' }} />} />
+          <DiplomateCardDutyList duty={duty[0].duty} discounts={duty[0].discounts} />
+        </div>
+        <div id="admision">
+          <DiplomateCardTitle title="Admisión" icon={<AccoutCheckOutline style={{ marginRight: '0.5em' }} />} />
+          <DiplomateCardAdmissionList
+            entryRequirements={admission[0].entryRequirements}
+            datesStudy={admission[0].datesStudy}
+          />
+        </div>
+        <div id="contacto">
+
+          <DiplomateCardTitle title="Contacto" icon={<ConctactIcon style={{ marginRight: '0.5em' }} />} />
+          <p style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
+            Puedes ingresar tus datos a través de nuestro formulario de contacto o directamente
+            a los siguientes correos:
           </p>
-          {diplomateCardsAcademic}
-        </Row>
-        <DiplomateCardTitle title="Aranceles" icon={<CurrencyUsd style={{ marginRight: '0.5em' }} />} />
-        <DiplomateCardDutyList duty={duty[0].duty} discounts={duty[0].discounts} />
-        <DiplomateCardTitle title="Admisión" icon={<AccoutCheckOutline style={{ marginRight: '0.5em' }} />} />
-        <DiplomateCardAdmissionList
-          entryRequirements={admission[0].entryRequirements}
-          datesStudy={admission[0].datesStudy}
-        />
-        <DiplomateCardTitle title="Contacto" icon={<AccoutCheckOutline style={{ marginRight: '0.5em' }} />} />
-        <p style={{ paddingLeft: '1.5em', paddingRight: '1.5em' }}>
-          Puedes ingresar tus datos a través de nuestro formulario de contacto o directamente
-          a los siguientes correos:
-        </p>
-        <Row>
-          <Col>
-            <div style={{
-              display: 'flex', padding: '0 1em 1em 1em', alignItems: 'center', justifyContent: 'space-evenly',
-            }}
-            >
-              <div
-                style={{
-                  display: 'flex', padding: '0 1em 1em 1em',
-                }}
+          <Row>
+            <Col>
+              <div style={{
+                display: 'flex', padding: '0 1em 1em 1em', alignItems: 'center', justifyContent: 'space-evenly',
+              }}
               >
-                <div>
+                <div
+                  style={{
+                    display: 'flex', padding: '0 1em 1em 1em',
+                  }}
+                >
                   <div>
-                    ¿Necesitas más información?
+                    <div>
+                      ¿Necesitas más información?
+                    </div>
+                    <Button variant="card" style={{ width: '100%' }} onClick={() => { setShowModal(true); }}>Contáctanos</Button>
                   </div>
-                  <Button variant="card" style={{ width: '100%' }} onClick={() => { setShowModal(true); }}>Contáctanos</Button>
+                </div>
+                <div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
+                  <p style={{ fontWeight: 'bold' }}>Coordinador</p>
+                  <p>
+                    Dr. Manuel Villalobos Cid
+                    <br />
+                    manuel.villalobos@usach.cl
+                  </p>
+                  <p style={{ fontWeight: 'bold' }}>
+                    Secretaria Diplomados
+                  </p>
+                  <p>
+                    Romina Labrin Valenzuela
+                    <br />
+                    Mail: romina.labrin@usach.cl
+                    <br />
+                    Fono: 22 71 80 905
+                  </p>
                 </div>
               </div>
-              <div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
-                <p style={{ fontWeight: 'bold' }}>Coordinador</p>
-                <p>
-                  Dr. Manuel Villalobos Cid
-                  <br />
-                  manuel.villalobos@usach.cl
-                </p>
-                <p style={{ fontWeight: 'bold' }}>
-                  Secretaria Diplomados
-                </p>
-                <p>
-                  Romina Labrin Valenzuela
-                  <br />
-                  Mail: romina.labrin@usach.cl
-                  <br />
-                  Fono: 22 71 80 905
-                </p>
-              </div>
+            </Col>
+          </Row>
+        </div>
+        <div id="inscripciones">
+          <DiplomateCardTitle title="Inscripciones" icon={<AccountArrowRightOutline style={{ marginRight: '0.5em' }} />} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1em' }}>
+            ¿Te interesa el&nbsp;
+            <div style={{ fontWeight: 'bold', color: '#0C497E' }}>
+              {title}
             </div>
-          </Col>
-        </Row>
-        <DiplomateCardTitle title="Inscripciones" icon={<AccoutCheckOutline style={{ marginRight: '0.5em' }} />} />
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1em' }}>
-          ¿Te interesa el&nbsp;
-          <div style={{ fontWeight: 'bold', color: '#0C497E' }}>
-            {title}
+            ?
           </div>
-          ?
-        </div>
-        <div
-          style={{
-            display: 'flex', padding: '0 1em 1em 1em',
-          }}
-        >
-          <Button variant="card" style={{ width: '100%' }} onClick={() => { setShowInscriptionModal(true); }}>¡Postular!</Button>
+          <div
+            style={{
+              display: 'flex', padding: '0 1em 1em 1em',
+            }}
+          >
+            <Button variant="card" style={{ width: '100%' }} onClick={() => { setShowInscriptionModal(true); }}>¡Postular!</Button>
 
+          </div>
         </div>
+
       </Card>
       <PostulantMoreInfoForm
         title={title}
