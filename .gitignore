@@ -23,3 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 docker-compose-m3.yml
 firebase.js
+chromedriver.exe

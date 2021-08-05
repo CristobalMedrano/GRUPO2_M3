@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent any
     environment {
         BACKEND_FOLDER = ""
         DOCKERHUB_CREDENTIALS = credentials('rodolfato-dockerhub')
@@ -15,6 +15,34 @@ pipeline {
                 echo "Iniciando Pipeline: ${env.JOB_NAME}" 
             }
         }
+        stage("Iniciando servidor Local") {
+            steps {
+                sh 'rm -f src/firebase.js'
+                sh 'cp $FIREBASE_FILE src/'
+                sh 'npm install'
+                sh 'REACT_APP_IP_HOST=$DO_SERVER_IP npm start &'
+            }
+        }
+        stage("Realizando pruebas en Selenium") {
+            steps {                
+                sleep(20)
+                sh 'touch results.xml'
+                sh 'rm -f *.xml'
+                sh 'py.test --junitxml=results.xml selenium-testing.py'
+            }
+            post {
+                always {
+                    junit "results.xml" 
+                }
+            }  
+        }
+        stage("Finalizando servidor Local") {
+            steps {
+                echo "Cerrando todo..."
+            }
+        }
+        
+        /*
         stage("Creacion de container de aplicacion y subida a dockerhub"){
             steps{
                 dir("${env.WORKSPACE}"){
@@ -48,7 +76,7 @@ pipeline {
                 }
 
             }
-        }
+        }*/
         stage("Fin del Pipeline") {
             steps {
                 echo "Finalizando Pipeline: ${env.JOB_NAME}" 
