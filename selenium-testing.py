@@ -18,9 +18,9 @@ class SeleniumTesting(unittest.TestCase):
         self.driver = webdriver.Chrome(
             options=options, executable_path='chromedriver')
 
-    def test_load_item(self):
+    def test_read_main_title(self):
         driver = self.driver
-        url = "http://localhost:3000/inicio"
+        url = "http://localhost:3000"
         driver.get(url)
         delay = 10  # seconds
         wait = WebDriverWait(driver, delay)
