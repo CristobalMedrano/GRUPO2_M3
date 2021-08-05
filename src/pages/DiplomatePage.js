@@ -2,11 +2,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
-  Container, Row, Col,
+  Container, Row, Col, Spinner, Button, Card,
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { Sticky, StickyContainer } from 'react-sticky';
 import Notification from '../components/app/Notification';
 import DiplomateCard from '../components/diplomate/DiplomateCard';
+import DiplomateMenuCard from '../components/diplomate/DiplomateMenuCard';
 
 const DiplomatePage = () => {
   const { diplomadoId } = useParams();
@@ -174,9 +176,11 @@ const DiplomatePage = () => {
   return (
     <>
       { !isLoading && (
-      <div style={{
-        position: 'relative',
-      }}
+      <div
+        id="inicio"
+        style={{
+          position: 'relative',
+        }}
       >
         <img
           src={diplomate.image}
@@ -185,27 +189,60 @@ const DiplomatePage = () => {
           }}
           alt={diplomate.title}
         />
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
         >
-          <h1 className="noselect" style={{ textAlign: 'center', fontSize: '1.2em', marginBottom: '0px' }}>Departamento de Ingeniería Informática</h1>
+          <h1
+            className="noselect"
+            style={{
+              textAlign: 'center', fontSize: '1.2em', marginTop: '-1em', marginBottom: '0px',
+            }}
+          >
+            Departamento de Ingeniería Informática
+          </h1>
           <h2 className="noselect" style={{ textAlign: 'center', fontSize: '3em', color: '#E86A35' }}>
             { diplomate.title}
           </h2>
         </div>
       </div>
       )}
+      { isLoading && (
+      <div style={{
+        borderRadius: '10px 10px 0px 0px',
+        height: '500px',
+        width: '100%',
+        objectFit: 'cover',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      >
+        <Spinner animation="border" style={{ height: '5em', width: '5em', color: '#E68041' }} />
+      </div>
+      )}
+      { !isLoading && (
+      <StickyContainer>
+        <Container>
+          <Row>
+            <Col
+              sm={2}
+              style={{ marginTop: '-2em' }}
+            >
+              <Sticky topOffset={-90}>
+                {({ style, isSticky }) => (
+                  <div style={{ ...style, isSticky, top: `${90 + style.top}px` }}>
+                    <DiplomateMenuCard id={diplomate.id} />
+                  </div>
+                )}
+              </Sticky>
+            </Col>
+            <Col>
 
-      <Container>
-        <Row>
-          <Col>
-            { isLoading && <p>Cargando...</p>}
-            { !isLoading && (
-            <>
               <DiplomateCard
                 key={diplomate.id}
                 id={diplomate.id}
@@ -219,11 +256,11 @@ const DiplomatePage = () => {
                 onClickInscription={getInscriptionHandler}
               />
 
-            </>
-            )}
-          </Col>
-        </Row>
-      </Container>
+            </Col>
+          </Row>
+        </Container>
+      </StickyContainer>
+      )}
       <Notification
         show={showModal}
         message={message}

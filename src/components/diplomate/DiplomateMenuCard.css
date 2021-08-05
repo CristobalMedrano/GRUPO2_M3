@@ -1,0 +1,25 @@
+.btn-diplomate-link {
+  background-color: transparent;
+  border: none;
+  font-weight: normal;
+  color: #0c497e;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  text-decoration: none;
+  margin-bottom: 0.5em;
+}
+
+.btn-diplomate-link:hover {
+  border: none;
+  color: #0c497e;
+  font-weight: bold;
+  background-color: #0c497e41;
+}
+
+.btn-diplomate-link:disabled {
+  border: none;
+  background-color: #595959;
+  color: gray;
+}

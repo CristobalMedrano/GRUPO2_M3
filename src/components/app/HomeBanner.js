@@ -1,6 +1,7 @@
 import React from 'react';
 import './HomeBanner.css';
 import { Button } from 'react-bootstrap';
+import { HashLink as Link } from 'react-router-hash-link';
 import diinfImage from '../../images/diinf.jpg';
 
 const HomeBanner = () => (
@@ -31,7 +32,9 @@ const HomeBanner = () => (
         Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina.
       </h3>
       <div className="text-center mt-4 noselect">
-        <Button variant="flat">¡INSCRÍBETE AHORA!</Button>
+        <Link to="#listado-diplomados">
+          <Button variant="flat">¡INSCRÍBETE AHORA!</Button>
+        </Link>
       </div>
 
     </div>

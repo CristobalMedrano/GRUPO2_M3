@@ -95,7 +95,7 @@ const Home = () => {
             </Card>
           </Col>
         </Row>
-        <Row>
+        <Row id="listado-diplomados">
           <Col>
             <h1
               className="mt-4"
