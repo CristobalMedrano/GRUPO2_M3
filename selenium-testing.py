@@ -16,7 +16,7 @@ class SeleniumTesting(unittest.TestCase):
         options.headless = True
         options.add_argument("--window-size=1920,1200")
         self.driver = webdriver.Chrome(
-            options=options, executable_path='chromedriver')
+            options=options, executable_path='./chromedriver')
 
     def test_read_main_title(self):
         driver = self.driver
@@ -68,6 +68,28 @@ class SeleniumTesting(unittest.TestCase):
             (By.ID, 'title')))
         # Compara ambos titulos.
         self.assertEqual(loaded_diplomate_title.text, diplomate_preview_title)
+    
+    #Test que clickea boton de la secretaria y asegura que cargue la vista
+    def test_secretary(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        delay = 10  # seconds
+        secretary_button = driver.find_element(By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
+        webdriver.ActionChains(driver).click(secretary_button).perform()
+        driver.save_screenshot("screenshot.png")
+        title_element = driver.find_element_by_xpath("//*[contains(text(), 'Listado de postulaciones a diplomados 1-2021')]")
+        self.assertEqual(title_element.text, 'Listado de postulaciones a diplomados 1-2021')
+    
+    #Test que clickea boton del consejo de postulacion y asegura que cargue la vista
+    def test_council(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        delay = 10  # seconds
+        secretary_button = driver.find_element(By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[2]/a[1]/div[1]")
+        webdriver.ActionChains(driver).click(secretary_button).perform()
+        driver.save_screenshot("screenshot.png")
+        title_element = driver.find_element_by_xpath("//*[contains(text(), 'Listado de postulaciones a diplomados 1-2021')]")
+        self.assertEqual(title_element.text, 'Listado de postulaciones a diplomados 1-2021')        
 
     def tearDown(self):
         self.driver.quit()
