@@ -59,13 +59,15 @@ const DashboardSecretaryPostulations = () => {
               <Container>
                 <Row>
                   <Col>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      fontSize: '2em',
-                      fontWeight: 'bold',
-                      color: '#114A7D',
-                    }}
+                    <div
+                      id="title"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '2em',
+                        fontWeight: 'bold',
+                        color: '#114A7D',
+                      }}
                     >
 
                       <Button onClick={backHandler} variant="primary-outline" style={{ marginRight: '0.3em' }}>

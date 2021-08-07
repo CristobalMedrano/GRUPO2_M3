@@ -36,13 +36,16 @@ const Home = () => {
 
   const diplomateCards = diplomateArray.map((diplomate) => (
     <Col sm={6} md={6} lg={4} xl={4} key={diplomate.id} style={{ marginBottom: '24px' }}>
-      <DiplomatePreview
-        id={diplomate.id}
-        title={diplomate.title}
-        image={diplomate.image}
-        description={diplomate.description}
-        onClick={getDiplomateDataHandler}
-      />
+      <div id={`diplomado-${diplomate.id}`} className="h-100">
+        <DiplomatePreview
+          className="h-100"
+          id={diplomate.id}
+          title={diplomate.title}
+          image={diplomate.image}
+          description={diplomate.description}
+          onClick={getDiplomateDataHandler}
+        />
+      </div>
     </Col>
   ));
 

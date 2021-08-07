@@ -34,7 +34,9 @@ const DiplomatePreview = (props) => {
       </Card.Body>
       <div style={{ display: 'flex', padding: '0 1em 1em 1em', justifyContent: 'flex-end' }}>
         <Form onSubmit={submitHandler}>
-          <Button variant="card" type="submit">Ver detalles</Button>
+          <div id={`ver-diplomado-${id}`}>
+            <Button variant="card" type="submit">Ver detalles</Button>
+          </div>
         </Form>
       </div>
     </Card>

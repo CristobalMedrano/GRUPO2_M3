@@ -18,15 +18,143 @@ class SeleniumTesting(unittest.TestCase):
         self.driver = webdriver.Chrome(
             options=options, executable_path='chromedriver')
 
-    def test_load_item(self):
+    def test_read_main_title(self):
         driver = self.driver
-        url = "http://localhost:3000/inicio"
-        driver.get(url)
+        driver.get("http://localhost:3000")
         delay = 10  # seconds
         wait = WebDriverWait(driver, delay)
         title = wait.until(EC.presence_of_element_located(
             (By.ID, 'title')))
         self.assertEqual(title.text, "Educación Continua")
+
+    def test_read_main_subtitle(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        delay = 10  # seconds
+        wait = WebDriverWait(driver, delay)
+        item = wait.until(lambda d: d.find_element_by_tag_name("a"))
+        self.assertEqual(item.text, "Educación Continua\nDiplomados")
+
+    def test_click_diplomate(self):
+        # Se conecta a la pagina
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        # Espera que se cargue durante 5 segundos
+        time.sleep(5)
+        # Busca el boton incribete ahora
+        diplomate_list_button = driver.find_element(
+            By.LINK_TEXT, "¡INSCRÍBETE AHORA!")
+
+        # Le da click al boton
+        webdriver.ActionChains(driver).click(
+            diplomate_list_button).perform()
+
+        # La transicion toma tiempo por eso los 3 segundos
+        time.sleep(3)
+
+        # Se busca el titulo del primer diplomado que encuentre
+        diplomate_title = driver.find_element(
+            By.XPATH, "//div[starts-with(@id, 'diplomado-')]/div/div/div[@class='card-title h5']")
+
+        # Se guarda el titulo encontrado
+        diplomate_preview_title = diplomate_title.text
+
+        # Se busca el boton ver detalles del diplomado
+        diplomate_button = driver.find_element(
+            By.XPATH, "//div[starts-with(@id, 'diplomado-')]//button")
+
+        # Se apreta el boton ver detalles
+        webdriver.ActionChains(driver).click(
+            diplomate_button).perform()
+
+        delay = 10  # seconds
+        # Se espera que la pagina cargue
+        wait = WebDriverWait(driver, delay)
+        # Busca si el titulo del diplomado que cargó es igual al que tenia el anterior.
+        loaded_diplomate_title = wait.until(EC.presence_of_element_located(
+            (By.ID, 'title')))
+        # Compara ambos titulos.
+        self.assertEqual(loaded_diplomate_title.text, diplomate_preview_title)
+
+    # Test que clickea boton de la secretaria y asegura que cargue la vista
+    def test_secretary(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        secretary_button = driver.find_element(
+            By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
+        webdriver.ActionChains(driver).click(secretary_button).perform()
+        # driver.save_screenshot("screenshot.png")
+        title_element = driver.find_element_by_xpath(
+            "//*[contains(text(), '[Secretaria] Listado de postulaciones a diplomados 1-2021')]")
+        self.assertEqual(title_element.text,
+                         '[Secretaria] Listado de postulaciones a diplomados 1-2021')
+
+    # Test que clickea boton del consejo de postulacion y asegura que cargue la vista
+    def test_council(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        council_button = driver.find_element(
+            By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[2]/a[1]/div[1]")
+        webdriver.ActionChains(driver).click(council_button).perform()
+        # driver.save_screenshot("screenshot.png")
+        title_element = driver.find_element_by_xpath(
+            "//*[contains(text(), '[Consejo] Listado de postulaciones a diplomados 1-2021')]")
+        self.assertEqual(title_element.text,
+                         '[Consejo] Listado de postulaciones a diplomados 1-2021')
+
+    '''
+    Ideas verificar en secretaria, postulaciones, también en consejo y postulaciones
+    assertEqual <- "seteo de casos conocidos"
+    Por ejemplo cantidad de postulaciones o ID de estas últimas
+    '''
+
+    def test_click_postulation(self):
+        # Setteo de inicio
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        # Se dan 4 segundos para que cargue la página
+        time.sleep(4)
+
+        # Se ingresa como secretaria
+        to_log_in = driver.find_element(
+            By.XPATH, '//*[@id="root"]/nav[1]/div/div[2]/div[3]/a')
+
+        webdriver.ActionChains(driver).click(
+            to_log_in).perform()
+
+        # Se ingresa a las postulaciones de ciberseguridad por la vista de secretaria
+        to_secretaria = driver.find_element(
+            By.XPATH, "//*[@id='root']/div[2]/div/div/div/div[1]/button")
+        webdriver.ActionChains(driver).click(to_secretaria).perform()
+
+        # Se espera a que cargue la página
+        time.sleep(4)
+
+        # Se obtiene el texto de titulo del diplomado
+        to_ciberseguridad = driver.find_element(
+            By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div/div')
+        title_ciberseguridad = to_ciberseguridad.text
+
+        # Se ingresa al diplomado de ciberseguridad
+        to_in_ciberseguridad = driver.find_element(
+            By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div[@class="col-sm-4"]/button')
+        webdriver.ActionChains(driver).click(to_in_ciberseguridad).perform()
+
+        # Se otorga tiempo de carga de página
+        time.sleep(4)
+
+        # Se otorga un tiempo de espera
+        delay = 10
+        wait = WebDriverWait(driver, delay)
+        # Se obtiene el nombre del diplomado, por su id
+        loaded_ciberseguridad_title = wait.until(EC.presence_of_element_located(
+            (By.ID, 'title')))
+        # Se comparan ambos titulos
+        self.assertEqual(loaded_ciberseguridad_title.text,
+                         title_ciberseguridad)
+
+    def tearDown(self):
+        self.driver.quit()
 
 
 if __name__ == "__main__":
