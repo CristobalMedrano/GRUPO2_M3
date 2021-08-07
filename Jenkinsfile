@@ -41,8 +41,6 @@ pipeline {
                 echo "Cerrando todo..."
             }
         }
-        
-        /*
         stage("Creacion de container de aplicacion y subida a dockerhub"){
             steps{
                 dir("${env.WORKSPACE}"){
@@ -76,7 +74,7 @@ pipeline {
                 }
 
             }
-        }*/
+        }
         stage("Fin del Pipeline") {
             steps {
                 echo "Finalizando Pipeline: ${env.JOB_NAME}" 
