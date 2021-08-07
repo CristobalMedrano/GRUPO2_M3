@@ -13,7 +13,7 @@ class SeleniumTesting(unittest.TestCase):
 
     def setUp(self):
         options = Options()
-        options.headless = False
+        options.headless = True
         options.add_argument("--window-size=1920,1200")
         self.driver = webdriver.Chrome(
             options=options, executable_path='chromedriver')
