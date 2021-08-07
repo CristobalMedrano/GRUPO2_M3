@@ -83,7 +83,7 @@ class SeleniumTesting(unittest.TestCase):
         secretary_button = driver.find_element(
             By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
         webdriver.ActionChains(driver).click(secretary_button).perform()
-        driver.save_screenshot("screenshot.png")
+        # driver.save_screenshot("screenshot.png")
         title_element = driver.find_element_by_xpath(
             "//*[contains(text(), '[Secretaria] Listado de postulaciones a diplomados 1-2021')]")
         self.assertEqual(title_element.text,
@@ -96,7 +96,7 @@ class SeleniumTesting(unittest.TestCase):
         council_button = driver.find_element(
             By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[2]/a[1]/div[1]")
         webdriver.ActionChains(driver).click(council_button).perform()
-        driver.save_screenshot("screenshot.png")
+        # driver.save_screenshot("screenshot.png")
         title_element = driver.find_element_by_xpath(
             "//*[contains(text(), '[Consejo] Listado de postulaciones a diplomados 1-2021')]")
         self.assertEqual(title_element.text,
