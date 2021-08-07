@@ -87,7 +87,7 @@ const DashboardResponsable = () => {
                       color: '#E86A35',
                     }}
                     >
-                      Listado de postulaciones a diplomados 1-2021
+                      [Consejo] Listado de postulaciones a diplomados 1-2021
                     </div>
                   </Col>
                 </Row>
