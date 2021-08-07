@@ -13,7 +13,7 @@ class SeleniumTesting(unittest.TestCase):
 
     def setUp(self):
         options = Options()
-        options.headless = False
+        options.headless = True
         options.add_argument("--window-size=1920,1200")
         self.driver = webdriver.Chrome(
             options=options, executable_path='chromedriver')
@@ -86,50 +86,49 @@ class SeleniumTesting(unittest.TestCase):
     '''
 
     def test_click_postulation(self):
-            # Setteo de inicio
-            driver = self.driver
-            driver.get("http://localhost:3000")
-            # Se dan 4 segundos para que cargue la página
-            time.sleep(4)
+        # Setteo de inicio
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        # Se dan 4 segundos para que cargue la página
+        time.sleep(4)
 
-            # Se ingresa como secretaria
-            to_log_in = driver.find_element(By.XPATH, '//*[@id="root"]/nav[1]/div/div[2]/div[3]/a')
+        # Se ingresa como secretaria
+        to_log_in = driver.find_element(
+            By.XPATH, '//*[@id="root"]/nav[1]/div/div[2]/div[3]/a')
 
-            webdriver.ActionChains(driver).click(
+        webdriver.ActionChains(driver).click(
             to_log_in).perform()
-            # Se da tiempo para que cargue la página de postulaciones en vista de secretaria
-            time.sleep(4)
 
+        # Se ingresa a las postulaciones de ciberseguridad por la vista de secretaria
+        to_secretaria = driver.find_element(
+            By.XPATH, "//*[@id='root']/div[2]/div/div/div/div[1]/button")
+        webdriver.ActionChains(driver).click(to_secretaria).perform()
 
-            # Se ingresa a las postulaciones de ciberseguridad por la vista de secretaria
-            to_secretaria = driver.find_element(By.XPATH, "//*[@id='root']/div[2]/div/div/div/div[1]/button")
-            webdriver.ActionChains(driver).click(to_secretaria).perform()
+        # Se espera a que cargue la página
+        time.sleep(4)
 
-            # Se espera a que cargue la página
-            time.sleep(4)
+        # Se obtiene el texto de titulo del diplomado
+        to_ciberseguridad = driver.find_element(
+            By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div/div')
+        title_ciberseguridad = to_ciberseguridad.text
 
-            # Se obtiene el texto de titulo del diplomado
-            to_ciberseguridad = driver.find_element(By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div/div')
-            title_ciberseguridad = to_ciberseguridad.text
+        # Se ingresa al diplomado de ciberseguridad
+        to_in_ciberseguridad = driver.find_element(
+            By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div[@class="col-sm-4"]/button')
+        webdriver.ActionChains(driver).click(to_in_ciberseguridad).perform()
 
+        # Se otorga tiempo de carga de página
+        time.sleep(4)
 
-            # Se ingresa al diplomado de ciberseguridad
-            to_in_ciberseguridad = driver.find_element(By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div[@class="col-sm-4"]/button')
-            webdriver.ActionChains(driver).click(to_in_ciberseguridad).perform()
-
-            # Se otorga tiempo de carga de página
-            time.sleep(4)
-
-            # Se otorga un tiempo de espera
-            delay = 10
-            wait = WebDriverWait(driver, delay)
-            # Se obtiene el nombre del diplomado, por su id
-            loaded_ciberseguridad_title = wait.until(EC.presence_of_element_located(
-                        (By.ID, 'title')))
-            # Se comparan ambos titulos
-            self.assertEqual(loaded_ciberseguridad_title.text, title_ciberseguridad)
-
-
+        # Se otorga un tiempo de espera
+        delay = 10
+        wait = WebDriverWait(driver, delay)
+        # Se obtiene el nombre del diplomado, por su id
+        loaded_ciberseguridad_title = wait.until(EC.presence_of_element_located(
+            (By.ID, 'title')))
+        # Se comparan ambos titulos
+        self.assertEqual(loaded_ciberseguridad_title.text,
+                         title_ciberseguridad)
 
     def tearDown(self):
         self.driver.quit()
