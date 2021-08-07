@@ -13,7 +13,7 @@ class SeleniumTesting(unittest.TestCase):
 
     def setUp(self):
         options = Options()
-        options.headless = True
+        options.headless = False
         options.add_argument("--window-size=1920,1200")
         self.driver = webdriver.Chrome(
             options=options, executable_path='chromedriver')
@@ -68,6 +68,32 @@ class SeleniumTesting(unittest.TestCase):
             (By.ID, 'title')))
         # Compara ambos titulos.
         self.assertEqual(loaded_diplomate_title.text, diplomate_preview_title)
+
+    # Test que clickea boton de la secretaria y asegura que cargue la vista
+    def test_secretary(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        secretary_button = driver.find_element(
+            By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[1]/a[1]/div[1]")
+        webdriver.ActionChains(driver).click(secretary_button).perform()
+        driver.save_screenshot("screenshot.png")
+        title_element = driver.find_element_by_xpath(
+            "//*[contains(text(), '[Secretaria] Listado de postulaciones a diplomados 1-2021')]")
+        self.assertEqual(title_element.text,
+                         '[Secretaria] Listado de postulaciones a diplomados 1-2021')
+
+    # Test que clickea boton del consejo de postulacion y asegura que cargue la vista
+    def test_council(self):
+        driver = self.driver
+        driver.get("http://localhost:3000")
+        council_button = driver.find_element(
+            By.XPATH, "//body/div[@id='root']/nav[1]/div[1]/div[2]/div[2]/a[1]/div[1]")
+        webdriver.ActionChains(driver).click(council_button).perform()
+        driver.save_screenshot("screenshot.png")
+        title_element = driver.find_element_by_xpath(
+            "//*[contains(text(), '[Consejo] Listado de postulaciones a diplomados 1-2021')]")
+        self.assertEqual(title_element.text,
+                         '[Consejo] Listado de postulaciones a diplomados 1-2021')
 
     def tearDown(self):
         self.driver.quit()
