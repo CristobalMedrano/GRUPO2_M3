@@ -18,7 +18,7 @@ class SeleniumTesting(unittest.TestCase):
         self.driver = webdriver.Chrome(
             options=options, executable_path='chromedriver')
 
-
+    '''
     def test_read_main_title(self):
         driver = self.driver
         driver.get("http://localhost:3000")
@@ -78,7 +78,7 @@ class SeleniumTesting(unittest.TestCase):
             (By.ID, 'title')))
         # Compara ambos titulos.
         self.assertEqual(loaded_diplomate_title.text, diplomate_preview_title)
-    '''
+
     Ideas verificar en secretaria, postulaciones, también en consejo y postulaciones
     assertEqual <- "seteo de casos conocidos"
     Por ejemplo cantidad de postulaciones o ID de estas últimas
@@ -109,14 +109,16 @@ class SeleniumTesting(unittest.TestCase):
             time.sleep(4)
 
             # Se obtiene el texto de titulo del diplomado
-            to_ciberseguridad = driver.find_element(By.XPATH, '//*[@id="root"]/div[2]/div/div/div/div/div/div/div[2]/div/div[1]/div/div/div[1]/div')
+            to_ciberseguridad = driver.find_element(By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div/div')
             title_ciberseguridad = to_ciberseguridad.text
 
 
             # Se ingresa al diplomado de ciberseguridad
-            to_in_ciberseguridad = driver.find_element(By.XPATH, '//*[@id="root"]/div[2]/div/div/div/div/div/div/div[2]/div/div[1]/div/div/div[3]/button')
+            to_in_ciberseguridad = driver.find_element(By.XPATH, '//div[starts-with(@id, "root")]/div[2]/div/div/div/div/div/div/div[2]/div/div[@class="card"]/div/div/div[@class="col-sm-4"]/button')
             webdriver.ActionChains(driver).click(to_in_ciberseguridad).perform()
 
+            # Se otorga tiempo de carga de página
+            time.sleep(4)
 
             # Se otorga un tiempo de espera
             delay = 10
