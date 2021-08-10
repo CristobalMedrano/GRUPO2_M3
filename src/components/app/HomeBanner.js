@@ -26,10 +26,10 @@ const HomeBanner = () => (
     >
       <h1 id="departamento" className="noselect" style={{ textAlign: 'center', fontSize: '1.2em', marginBottom: '0px' }}>Departamento de Ingeniería Informática</h1>
       <h2 id="title" className="noselect" style={{ textAlign: 'center', fontSize: '3em' }}>
-        Educación Continua Cambios Para Testear
+        Educación Continua
       </h2>
       <h3 id="subtitle" className="noselect" style={{ textAlign: 'center', fontSize: '1em' }}>
-        Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina.
+        Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina CAMBIO REAL.
       </h3>
       <div className="text-center mt-4 noselect">
         <Link to="#listado-diplomados">
