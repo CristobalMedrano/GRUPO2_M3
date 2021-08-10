@@ -29,7 +29,7 @@ const HomeBanner = () => (
         Educación Continua
       </h2>
       <h3 id="subtitle" className="noselect" style={{ textAlign: 'center', fontSize: '1em' }}>
-        Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina CAMBIO REAL.
+        Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina.
       </h3>
       <div className="text-center mt-4 noselect">
         <Link to="#listado-diplomados">
