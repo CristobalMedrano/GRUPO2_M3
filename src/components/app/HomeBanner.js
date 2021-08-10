@@ -26,7 +26,7 @@ const HomeBanner = () => (
     >
       <h1 id="departamento" className="noselect" style={{ textAlign: 'center', fontSize: '1.2em', marginBottom: '0px' }}>Departamento de Ingeniería Informática</h1>
       <h2 id="title" className="noselect" style={{ textAlign: 'center', fontSize: '3em' }}>
-        Educación Continua
+        Educación Continua Cambios Para Testear
       </h2>
       <h3 id="subtitle" className="noselect" style={{ textAlign: 'center', fontSize: '1em' }}>
         Diplomados que se cursan entre Marzo y Enero de cada año en Jornada Vespertina.
