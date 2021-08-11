@@ -90,7 +90,7 @@ const Home = () => {
                   Fechas importantes
                 </Card.Title>
                 <ul>
-                  <li>Evaluación 1: Miércoles 33 de Mayo, 2021</li>
+                  <li>Evaluación 1: Miércoles 88 de Mayo, 2021</li>
                   <li>Evaluación 2: Martes 01 de Junio, 2021</li>
                   <li>Evaluación 3: Miércoles 11 de Agosto, 2021</li>
                 </ul>
